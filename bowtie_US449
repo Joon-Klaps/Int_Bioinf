@@ -1,0 +1,62 @@
+#!/bin/bash
+#PBS -l nodes=1:ppn=8,pmem=10gb
+#PBS -l walltime=5:00:00
+#PBS -t 1-4
+#PBS -N bowtie2_Paer_US499
+#PBS -m abe
+#PBS -A lp_edu_bioinformatics_1920
+#PBS -M joon.klaps@student.kuleuven.be
+
+# map reads to reference genome 
+
+# How to run:
+# qsub bowtie2.sh reference_genome
+
+#Small method to show me what went wrong if an error is raised
+abort()
+{
+    echo >&2 '
+***************
+*** ABORTED ***
+***************
+'
+    echo "An error occurred. Exiting..." >&2
+    exit 1
+}
+
+set -e
+trap 'abort' 0
+
+# Get input files
+cd /vsc-hard-mounts/leuven-data/331/vsc33178/int_bioinf
+SEEDFILE='reads.tsv'
+SEED=$(awk "NR==$PBS_ARRAYID" $SEEDFILE)
+SampleID=$SEED
+Reference=Paer-US449.fasta
+echo $SampleID
+echo $Reference
+
+hostname >&2
+echo $0 >&2
+printf START >&2; uptime >&2
+date >&2
+
+# Export paths
+module purge
+module load Bowtie2
+
+# Build a reference first
+bowtie2-build $Reference reference_genome
+# Run bowtie2
+bowtie2 -x reference_genome -U $SampleID.fastq.gz -S $SampleID.sam 
+
+printf END >&2; uptime >&2
+
+trap : 0
+
+echo >&2 '
+************
+*** DONE ***
+************
+'
+
