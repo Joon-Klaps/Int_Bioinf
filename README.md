@@ -4,7 +4,7 @@ Welcome to our github respository of the integrated bioinformatics project. In h
 
 ## Data cleaning and assembly 
 
-#### trimming of reads
+#### Trimming of reads
 ##### Software and installation 
 Porechop software was used; downloaded and installed from https://github.com/rrwick/Porechop via the command line:
 ```bash 
@@ -25,7 +25,7 @@ porechop -i input_reads.fastq.gz -o output_reads.fastq.gz
 ```
 This script looks for adaptors at the 3’ and 5’ end, as well as known adaptors not completely at the end of the read (can be skipped via: --no_split but I didn’t do this).
 
-#### genome assembly
+#### Genome assembly
 ##### Software
 If Bowtie2 is not yet installed (`module available` if so load it `module load bowtie2`), Bowtie2 can be installed using conda from the command line via:
 ```bash 
