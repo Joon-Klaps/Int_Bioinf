@@ -46,9 +46,9 @@ module purge
 module load Bowtie2
 
 # Build a reference first
-bowtie2-build $Reference reference_genome
+bowtie2-build $Reference US449
 # Run bowtie2
-bowtie2 -x reference_genome -U $SampleID.fastq.gz -S $SampleID.sam 
+bowtie2 -x US449 -U $SampleID.fastq.gz -S $SampleID_US449.sam 
 
 printf END >&2; uptime >&2
 
