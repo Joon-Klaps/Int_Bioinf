@@ -43,5 +43,8 @@ Bowtie2 -x indexed_reference_genome -U reads.fastq.gz
 ```
 Info about [Job-arrays](https://rc.dartmouth.edu/index.php/using-discovery/scheduling-jobs/using-job-arrays/)
 ## Secquence analysis 
-#### ....
+### SMRT-cappable-seq
+[analysis scripts of smrt](https://github.com/elitaone/SMRT-cappable-seq)
+### Cappable-seq
+[analysis scripts of Ettwiller](ttps://github.com/Ettwiller/TSS/)
 
