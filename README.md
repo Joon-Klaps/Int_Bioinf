@@ -46,5 +46,5 @@ Info about [Job-arrays](https://rc.dartmouth.edu/index.php/using-discovery/sched
 ### SMRT-cappable-seq
 [analysis scripts of smrt](https://github.com/elitaone/SMRT-cappable-seq)
 ### Cappable-seq
-[analysis scripts of Ettwiller](ttps://github.com/Ettwiller/TSS/)
+[analysis scripts of Ettwiller](https://github.com/Ettwiller/TSS/)
 
