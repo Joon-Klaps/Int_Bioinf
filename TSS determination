@@ -1,9 +1,0 @@
-## TSS determination
-This is based on the scripts from Ettwiller et al.
-(https://github.com/Ettwiller/TSS/)
-
-#### Use:
-''' bash
-cd Desktop
-git clone https://github.com/Ettwiller/TSS.git
-'''
