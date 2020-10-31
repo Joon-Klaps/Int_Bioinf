@@ -60,6 +60,7 @@ git clone https://github.com/Ettwiller/TSS.git
 ```bash
 perl ./TSS/bam2firstbasegtf.pl --bam trimmed_5_pseudo.sorted.bam --cutoff 10 --out enriched_cutoff10.gtf
 ```
+cutoff: minimal reads/million to be counted as a TSS.
 A cutoff of 10 - 20 seems to capture most TSS.
 
 The output of this command is the input for the following:
@@ -67,6 +68,7 @@ The output of this command is the input for the following:
 ```bash
 perl ./TSS/cluster_tss.pl  --tss enriched_cutoff10.gtf --cutoff  5 --out enriched_cutoff_10_cluster_5.gtf
 ```
+cutoff: maximal bp distance for TSS to be clustered as one.
 This script combines TSS within 5bp into 1 TSS. A cutoff of 5 was used in the paper and seems accurate.
 
 
