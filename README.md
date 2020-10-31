@@ -41,10 +41,41 @@ To align use the following command:
 ```bash 
 Bowtie2 -x indexed_reference_genome -U reads.fastq.gz
 ```
+
 Info about [Job-arrays](https://rc.dartmouth.edu/index.php/using-discovery/scheduling-jobs/using-job-arrays/)
+
+
+## TSS determination
+Determination of TSS was done using the perl scripts by Ettwiller et al. (https://github.com/Ettwiller)
+A first script looks for enriched start sites, where a second script combines close (< several bp) into 1 site.
+The input for this analysis is a bam file of mapped reads.
+
+#### Protocol
+##### Setting up
+```bash
+cd Desktop/
+git clone https://github.com/Ettwiller/TSS.git
+```
+##### Analysis
+```bash
+perl ./TSS/bam2firstbasegtf.pl --bam trimmed_5_pseudo.sorted.bam --cutoff 10 --out enriched_cutoff10.gtf
+```
+A cutoff of 10 - 20 seems to capture most TSS.
+
+The output of this command is the input for the following:
+
+```bash
+perl ./TSS/cluster_tss.pl  --tss enriched_cutoff10.gtf --cutoff  5 --out enriched_cutoff_10_cluster_5.gtf
+```
+This script combines TSS within 5bp into 1 TSS. A cutoff of 5 was used in the paper and seems accurate.
+
+
+
 ## Secquence analysis 
 ### SMRT-cappable-seq
 [analysis scripts of smrt](https://github.com/elitaone/SMRT-cappable-seq)
 ### Cappable-seq
 [analysis scripts of Ettwiller](https://github.com/Ettwiller/TSS/)
+
+
 
