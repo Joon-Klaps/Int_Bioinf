@@ -63,25 +63,28 @@ cd Desktop/
 ```bash
 perl firstbase.pl --bam sorted.bam --out firstbasepos.gtf
 ```
-REQUIRED:
---bam: this is the input, a sorted bam file
---out: this is the prefered output file containing the positions of the first bp of every read
-
-The output of this command is the input for the following:
+REQUIRED: <br>
+--bam: this is the input, a sorted bam file <br>
+--out: this is the prefered output file containing the positions of the first bp of every read <br>
+<br>
+The output of this command is the input for the following:<br>
 
 ##### 2) Clustering start sites and filtering for coverage
 ```bash
 perl cluster_filter.pl --tss firstbasepos.gtf --out tss.gtf --combine 20 --filter 10 --rpm 5
 ```
-REQUIRED:
---tss: this is the input, which is the output from the firstbase.pl, a .gtf file with all first bp positions
---out: this is the prefered output file containig the positions of all TSS, including coverage (absolute and in reads per million)
-OPTIONAL:
+REQUIRED: <br>
+--tss: this is the input, which is the output from the firstbase.pl, a .gtf file with all first bp positions <br>
+--out: this is the prefered output file containig the positions of all TSS, including coverage (absolute and in reads per million) <br>
+OPTIONAL: <br>
 --combine: the distance in bp where start positions are merged; default = 20
 --filter: the minimal absolute coverage for a start position to be included; default = 10
 --rpm: the minimal relative coverage for a start position to be included (in counts per million); default = 5
 NOTE:
 Combining restrictions for both absolute and relative coverage assures consistence and accuracy.
+
+
+The output of this command is the input for the following:
 
 ##### 3) Extract promotor regions
 ```bash
