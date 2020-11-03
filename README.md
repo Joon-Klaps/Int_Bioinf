@@ -46,30 +46,52 @@ Info about [Job-arrays](https://rc.dartmouth.edu/index.php/using-discovery/sched
 
 
 ## TSS determination
-Determination of TSS was done using the perl scripts by Ettwiller et al. (https://github.com/Ettwiller)
-A first script looks for enriched start sites, where a second script combines close (< several bp) into 1 site.
-The input for this analysis is a bam file of mapped reads.
+Determination of TSS was done using the perl scripts modified from Ettwiller et al. (https://github.com/Ettwiller).
+The input for this analysis are sorted mapped reads (.bam).
+1) The first script indicates the 1st bp of every read from the .bam file.
+2) The second script clusters starting sites together within a specified distance, then filters for coverage (both absolute an relative).
+3) The third script gives the promotor region for every TSS, defined as a region op X bp directly upstream of the TSS.
+
+Note: all the output files from all these scripts can be viewed as a track in IGV, which I recommend :)
 
 #### Protocol
 ##### Setting up
 ```bash
 cd Desktop/
-git clone https://github.com/Ettwiller/TSS.git
 ```
-##### Analysis
+##### 1) Extracting the first bp positions for every read
 ```bash
-perl ./TSS/bam2firstbasegtf.pl --bam trimmed_5_pseudo.sorted.bam --cutoff 10 --out enriched_cutoff10.gtf
+perl firstbase.pl --bam sorted.bam --out firstbasepos.gtf
 ```
-cutoff: minimal reads/million to be counted as a TSS.
-A cutoff of 10 - 20 seems to capture most TSS.
+REQUIRED:
+--bam: this is the input, a sorted bam file
+--out: this is the prefered output file containing the positions of the first bp of every read
 
 The output of this command is the input for the following:
 
+##### 2) Clustering start sites and filtering for coverage
 ```bash
-perl ./TSS/cluster_tss.pl  --tss enriched_cutoff10.gtf --cutoff  5 --out enriched_cutoff_10_cluster_5.gtf
+perl cluster_filter.pl --tss firstbasepos.gtf --out tss.gtf --combine 20 --filter 10 --rpm 5
 ```
-cutoff: maximal bp distance for TSS to be clustered as one.
-This script combines TSS within 5bp into 1 TSS. A cutoff of 5 was used in the paper and seems accurate.
+REQUIRED:
+--tss: this is the input, which is the output from the firstbase.pl, a .gtf file with all first bp positions
+--out: this is the prefered output file containig the positions of all TSS, including coverage (absolute and in reads per million)
+OPTIONAL:
+--combine: the distance in bp where start positions are merged; default = 20
+--filter: the minimal absolute coverage for a start position to be included; default = 10
+--rpm: the minimal relative coverage for a start position to be included (in counts per million); default = 5
+NOTE:
+Combining restrictions for both absolute and relative coverage assures consistence and accuracy.
+
+##### 3) Extract promotor regions
+```bash
+perl fetch_prom.pl --tss tss.gtf --out promotors.gtf --bp 40
+```
+REQUIRED:
+--tss: this is the input, which is the output from cluster_filter.pl, a .gtf file with all the TSS sites
+--out: this is the prefered output file containing the positions of all promotor regions of found TSS
+OPTIONAL:
+--bp: the region directly upstream of the TSS in bp; default = 40
 
 
 
