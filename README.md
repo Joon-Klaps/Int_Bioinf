@@ -77,24 +77,23 @@ REQUIRED: <br>
 --tss: this is the input, which is the output from the firstbase.pl, a .gtf file with all first bp positions <br>
 --out: this is the prefered output file containig the positions of all TSS, including coverage (absolute and in reads per million) <br>
 OPTIONAL: <br>
---combine: the distance in bp where start positions are merged; default = 20
---filter: the minimal absolute coverage for a start position to be included; default = 10
---rpm: the minimal relative coverage for a start position to be included (in counts per million); default = 5
-NOTE:
-Combining restrictions for both absolute and relative coverage assures consistence and accuracy.
-
-
+--combine: the distance in bp where start positions are merged; default = 20 <br>
+--filter: the minimal absolute coverage for a start position to be included; default = 10 <br>
+--rpm: the minimal relative coverage for a start position to be included (in counts per million); default = 5 <br>
+NOTE:<br>
+Combining restrictions for both absolute and relative coverage assures consistence and accuracy.<br>
+<br>
 The output of this command is the input for the following:
 
 ##### 3) Extract promotor regions
 ```bash
 perl fetch_prom.pl --tss tss.gtf --out promotors.gtf --bp 40
 ```
-REQUIRED:
---tss: this is the input, which is the output from cluster_filter.pl, a .gtf file with all the TSS sites
---out: this is the prefered output file containing the positions of all promotor regions of found TSS
-OPTIONAL:
---bp: the region directly upstream of the TSS in bp; default = 40
+REQUIRED:<br>
+--tss: this is the input, which is the output from cluster_filter.pl, a .gtf file with all the TSS sites<br>
+--out: this is the prefered output file containing the positions of all promotor regions of found TSS<br>
+OPTIONAL:<br>
+--bp: the region directly upstream of the TSS in bp; default = 40<br>
 
 
 
