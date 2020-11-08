@@ -95,7 +95,14 @@ REQUIRED:<br>
 OPTIONAL:<br>
 --bp: the region directly upstream of the TSS in bp; default = 40<br>
 
-
+##### 4) Lookup promotor regions in genome
+```bash
+perl promseq.pl --prom promotors.gtf --out promotor_seqs.fasta --genome genome.fasta
+```
+REQUIRED:<br>
+--prom: this is the input, which is the output from fetch_prom.pl, a gtf file with all the promotor regions<br>
+--out: this is the prefered output file containing the sequences of all promotor regions for each identified TSS in fasta format<br>
+--genome: this is the reference genome in fasta format<br>
 
 ## Secquence analysis 
 ### SMRT-cappable-seq
