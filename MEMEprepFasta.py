@@ -44,8 +44,7 @@ with file as f, output as f2:
             else:
                 i = i + 2   
         else: 
-            print("Normal", i)
-            print(len(duplicate))
+            print(i)
             output.write(lines[i])
             i = i+1
   
