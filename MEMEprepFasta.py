@@ -1,3 +1,4 @@
+import collections
 #Give a fasta file format, this will delete any rows smaller than 10 (input rows) 
 #So meme won't give an error
 #also removes all duplicates (.... headers which are in the file more than 1 will all be excluded, also the first entry)
