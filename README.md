@@ -71,7 +71,7 @@ The output of this command is the input for the following:<br>
 
 ##### 2) Clustering start sites and filtering for coverage
 ```bash
-perl cluster_filter.pl --tss firstbasepos.gtf --out tss.gtf --combine 20 --filter 10 --rpm 5
+perl cluster_filter.pl --tss firstbasepos.gtf --out tss.gtf --combine 20 --filter 10 --rmp 5
 ```
 REQUIRED: <br>
 --tss: this is the input, which is the output from the firstbase.pl, a .gtf file with all first bp positions <br>
