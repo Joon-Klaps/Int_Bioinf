@@ -26,23 +26,25 @@ porechop -i input_reads.fastq.gz -o output_reads.fastq.gz
 This script looks for adaptors at the 3’ and 5’ end, as well as known adaptors not completely at the end of the read (can be skipped via: --no_split but I didn’t do this).
 
 #### Genome assembly
-##### Software
-If Bowtie2 is not yet installed (`module available` if so load it `module load bowtie2`), Bowtie2 can be installed using conda from the command line via:
-```bash 
-conda install bowtie2
-```
+##### Software : NGLMR
+CoNvex Gap-cost alignMents for Long Reads (ngmlr) is a long-read mapper designed to sensitively align PacBilo or Oxford Nanopore to (large) reference genomes. Ngmlr uses an SV aware k-mer search to find approximate mapping locations for a read and then a banded Smith-Waterman alignment algorithm to compute the final alignment. Ngmlr uses a convex gap cost model that penalizes gap extensions for longer gaps less than for shorter ones to compute precise alignments. The gap model allows ngmlr to account for both the sequencing error and real genomic variations at the same time and makes it especially effective at more precisely identifying the position of breakpoints stemming from structural variations. The k-mer search helps to detect and split reads that cannot be aligned linearly, enabling ngmlr to reliably align reads to a wide range of different structural variations including nested SVs (e.g. inversions flanked by deletions).
+(https://www.nature.com/articles/s41592-018-0001-7)
+
+to download a precompiled NGMLR version on linux operator
+
+wget https://github.com/philres/ngmlr/releases/download/v0.2.7/ngmlr-0.2.7-linux-x86_64.tar.gz
+tar xvzf ngmlr-0.2.7-linux-x86_64.tar.gz
+cd ngmlr-0.2.7/
 
 ##### Protocol
-In order to align to a reference genome, an indexed genome must be built first as follows:
-```bash 
-Bowtie2-build reference_genome.fasta reference_genome_name
-```
-To align use the following command:
-```bash 
-Bowtie2 -x indexed_reference_genome -U reads.fastq.gz
-```
+For Oxford Nanopore run:
 
-Info about [Job-arrays](https://rc.dartmouth.edu/index.php/using-discovery/scheduling-jobs/using-job-arrays/)
+ngmlr -t 4 -r reference.fasta -q reads.fastq -o test.sam -x ont
+
+where
+reference.fasta is the reference genome we would like to map to 
+reads.fasta is the fastq sequence file we would like to map to the reference genome 
+test.sam is the output sam file storing mapping information 
 
 
 ## TSS determination
