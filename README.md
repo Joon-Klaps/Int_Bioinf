@@ -32,17 +32,19 @@ CoNvex Gap-cost alignMents for Long Reads (ngmlr) is a long-read mapper designed
 
 to download a precompiled NGMLR version on linux operator
 
+```
 wget https://github.com/philres/ngmlr/releases/download/v0.2.7/ngmlr-0.2.7-linux-x86_64.tar.gz
 
 tar xvzf ngmlr-0.2.7-linux-x86_64.tar.gz
 
 cd ngmlr-0.2.7/
+```
 
 ##### Protocol
 For Oxford Nanopore we run:
-
+```
 ngmlr -t 4 -r reference.fasta -q reads.fastq -o test.sam -x ont
-
+```
 where
 
 - reference.fasta is the reference genome we would like to map to
