@@ -44,9 +44,9 @@ For Oxford Nanopore we run:
 ngmlr -t 4 -r reference.fasta -q reads.fastq -o test.sam -x ont
 
 where
-reference.fasta is the reference genome we would like to map to 
-reads.fasta is the fastq sequence file we would like to map to the reference genome 
-test.sam is the output sam file storing mapping information 
+*reference.fasta is the reference genome we would like to map to 
+*reads.fasta is the fastq sequence file we would like to map to the reference genome 
+*test.sam is the output sam file storing mapping information 
 
 
 ## TSS determination
