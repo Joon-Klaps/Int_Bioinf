@@ -113,6 +113,43 @@ REQUIRED:<br>
 --out: this is the prefered output file containing the sequences of all promotor regions for each identified TSS in fasta format<br>
 --genome: this is the reference genome in fasta format<br>
 
+## TTS determination 
+
+#### Scripts 
+
+- TSS_analysis.py 
+
+- binomialtest.R
+
+[analysis scripts of smrt](https://github.com/elitaone/SMRT-cappable-seq)
+
+1) TSS_analysis
+
+Requires python 2.7
+```
+Usage:
+python TSS_analysis.py count --input input.bed --output count.output
+python TSS_analysis.py cluster --input count.output --output --control --cutoff (default5)
+```
+Function 
+
+#count function counts the number of reads starting at the same 5'end and ending at the same 3'end.
+
+#cluster function cluters the nearby TSSs, whose distance is <=cutoff.
+
+2) binomialtest
+
+Requires R
+
+```
+Usage:
+R binomialtest.R --no-save input.bed output.bed 0.2 < binomialtest.R
+```
+
+Function 
+
+This function performs the binomial test to determine the signicant accumulation of reads at certain 3'ends, which is defined as termination site (TTS).
+
 ## Secquence analysis 
 ### SMRT-cappable-seq
 [analysis scripts of smrt](https://github.com/elitaone/SMRT-cappable-seq)
