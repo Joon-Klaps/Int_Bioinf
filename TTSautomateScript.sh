@@ -26,14 +26,28 @@ python2 TSS_analysis.py count --input vir_5.bed --output vir_5.output
 python2 TSS_analysis.py count --input vir_10.bed --output vir_10.output
 python2 TSS_analysis.py count --input vir_15.bed --output vir_15.output
 
+echo 'GIVE CLUSTERING VARIABLE (1-10)'
+echo 'This determines which ends are clustered together, default is 5'
+read variableClustering
+
+python2 TSS_analysis.py cluster --input pseudo_0.output --output clustered_pseudo_0.output --control cluster_info_pseudo_0.txt --cutoff $variableClustering
+python2 TSS_analysis.py cluster --input pseudo_5.output --output clustered_pseudo_5.output --control cluster_info_pseudo_5.txt --cutoff $variableClustering
+python2 TSS_analysis.py cluster --input pseudo_10.output --output clustered_pseudo_10.output --control cluster_info_pseudo_10.txt --cutoff $variableClustering
+python2 TSS_analysis.py cluster --input pseudo_15.output --output clustered_pseudo_15.output --control cluster_info_pseudo_15.txt --cutoff $variableClustering
+
+python2 TSS_analysis.py cluster --input vir_0.output --output clustered_vir_0.output --control cluster_info_vir_0.txt --cutoff $variableClustering
+python2 TSS_analysis.py cluster --input vir_5.output --output clustered_vir_5.output --control cluster_info_vir_5.txt --cutoff $variableClustering
+python2 TSS_analysis.py cluster --input vir_10.output --output clustered_vir_10.output --control cluster_info_vir_10.txt --cutoff $variableClustering
+python2 TSS_analysis.py cluster --input vir_15.output --output clustered_vir_15.output --control cluster_info_vir_15.txt --cutoff $variableClustering
+
 echo 'STATISTICS R pseudomonas'
-R binomialtest.R --no-save pseudo_0.output stats_pseudo_0.bed 0.2 < binomialtest.R
-R binomialtest.R --no-save pseudo_5.output stats_pseudo_5.bed 0.2 < binomialtest.R
-R binomialtest.R --no-save pseudo_10.output stats_pseudo_10.bed 0.2 < binomialtest.R
-R binomialtest.R --no-save pseudo_15.output stats_pseudo_15.bed 0.2 < binomialtest.R
+R binomialtest.R --no-save clustered_pseudo_0.output stats_pseudo_0.bed 0.2 < binomialtest.R
+R binomialtest.R --no-save clustered_pseudo_5.output stats_pseudo_5.bed 0.2 < binomialtest.R
+R binomialtest.R --no-save clustered_pseudo_10.output stats_pseudo_10.bed 0.2 < binomialtest.R
+R binomialtest.R --no-save clustered_pseudo_15.output stats_pseudo_15.bed 0.2 < binomialtest.R
 
 echo 'STATISTICS R LUZ7'
-R binomialtest.R --no-save vir_0.output stats_vir_0.bed 0.2 < binomialtest.R
-R binomialtest.R --no-save vir_5.output stats_vir_5.bed 0.2 < binomialtest.R
-R binomialtest.R --no-save vir_10.output stats_vir_10.bed 0.2 < binomialtest.R
-R binomialtest.R --no-save vir_15.output stats_vir_15.bed 0.2 < binomialtest.R
+R binomialtest.R --no-save clustered_vir_0.output stats_vir_0.bed 0.2 < binomialtest.R
+R binomialtest.R --no-save clustered_vir_5.output stats_vir_5.bed 0.2 < binomialtest.R
+R binomialtest.R --no-save clustered_vir_10.output stats_vir_10.bed 0.2 < binomialtest.R
+R binomialtest.R --no-save clustered_vir_15.output stats_vir_15.bed 0.2 < binomialtest.R
