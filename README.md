@@ -77,7 +77,7 @@ cd Desktop/
 ```
 ##### 1) Predicting TSS
 ```bash
-perl TSS.pl --in sorted.bam --out TSS.gtf --combine 20 --filter 5 --rmp 5
+perl TSS.pl --in sorted.bam --out TSS.gtf --combine 20 --filter 5 --rpm 5
 ```
 REQUIRED: <br>
 --in: this is the input, a sorted bam file <br>
