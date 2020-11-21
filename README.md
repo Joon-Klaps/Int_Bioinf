@@ -64,9 +64,9 @@ samtools index trimmed_15_pseudo.sorted.bam
 ## TSS determination
 Determination of TSS was done using the perl scripts modified from Ettwiller et al. (https://github.com/Ettwiller).
 The input for this analysis are sorted mapped reads (.bam).
-1) The first script indicates the 1st bp of every read from the .bam file.
-2) The second script clusters starting sites together within a specified distance, then filters for coverage (both absolute an relative).
-3) The third script gives the promotor region for every TSS, defined as a region op X bp directly upstream of the TSS.
+1) The first script clusters starting sites of reads together within a specified distance, then filters for coverage (both absolute an relative).
+2) The second script gives the promotor region for every TSS, defined as a region op X bp directly upstream of the TSS.
+3) The third script looks the promotor regions up in the genome and returns a fasta file with the sequences.
 
 Note: all the output files from all these scripts can be viewed as a track in IGV, which I recommend :)
 
@@ -75,43 +75,34 @@ Note: all the output files from all these scripts can be viewed as a track in IG
 ```bash
 cd Desktop/
 ```
-##### 1) Extracting the first bp positions for every read
+##### 1) Predicting TSS
 ```bash
-perl firstbase.pl --bam sorted.bam --out firstbasepos.gtf
+perl TSS.pl --in sorted.bam --out TSS.gtf --combine 20 --filter 5 --rmp 5
 ```
 REQUIRED: <br>
---bam: this is the input, a sorted bam file <br>
---out: this is the prefered output file containing the positions of the first bp of every read <br>
-<br>
-The output of this command is the input for the following:<br>
-
-##### 2) Clustering start sites and filtering for coverage
-```bash
-perl cluster_filter.pl --tss firstbasepos.gtf --out tss.gtf --combine 20 --filter 10 --rmp 5
-```
-REQUIRED: <br>
---tss: this is the input, which is the output from the firstbase.pl, a .gtf file with all first bp positions <br>
---out: this is the prefered output file containig the positions of all TSS, including coverage (absolute and in reads per million) <br>
+--in: this is the input, a sorted bam file <br>
+--out: his is the prefered output file containig the positions of all TSS, including coverage (absolute and in reads per million) <br>
 OPTIONAL: <br>
 --combine: the distance in bp where start positions are merged; default = 20 <br>
---filter: the minimal absolute coverage for a start position to be included; default = 10 <br>
+--filter: the minimal absolute coverage for a start position to be included; default = 5 <br>
 --rpm: the minimal relative coverage for a start position to be included (in counts per million); default = 5 <br>
 NOTE:<br>
 Combining restrictions for both absolute and relative coverage assures consistence and accuracy.<br>
+The new version of the script has an additional filter: the total reads coverage of a TSS must be at least 1.5x higher downstream of the TSS compared to upstream. This difference is averaged over a window of 15 bp up- and downstream. <br>
+A version that does not use this extra filter is available as 'TSS_quick.pl", which is a bit faster and almost equally accurate on bacterial RNAseq libraries. <br>
 <br>
-The output of this command is the input for the following:
 
-##### 3) Extract promotor regions
+##### 2) Extract promotor regions
 ```bash
 perl fetch_prom.pl --tss tss.gtf --out promotors.gtf --bp 40
 ```
 REQUIRED:<br>
---tss: this is the input, which is the output from cluster_filter.pl, a .gtf file with all the TSS sites<br>
+--tss: this is the input, which is the output from TSS.pl, a .gtf file with all the TSS sites<br>
 --out: this is the prefered output file containing the positions of all promotor regions of found TSS<br>
 OPTIONAL:<br>
 --bp: the region directly upstream of the TSS in bp; default = 40<br>
 
-##### 4) Lookup promotor regions in genome
+##### 3) Lookup promotor regions in genome
 ```bash
 perl promseq.pl --prom promotors.gtf --out promotor_seqs.fasta --genome genome.fasta
 ```
