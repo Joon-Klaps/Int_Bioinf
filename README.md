@@ -88,7 +88,7 @@ OPTIONAL: <br>
 --rpm: the minimal relative coverage for a start position to be included (in counts per million); default = 5 <br>
 NOTE:<br>
 Combining restrictions for both absolute and relative coverage assures consistence and accuracy.<br>
-The new version of the script has an additional filter: the total reads coverage of a TSS must be at least 1.5x higher downstream of the TSS compared to upstream. This difference is averaged over a window of 15 bp up- and downstream. <br>
+The new version of the script has an additional filter: the total coverage must be at least 1.5x higher downstream of the TSS compared to upstream. This difference is averaged over a window of 15 bp up- and downstream of the predicted TSS. <br>
 A version that does not use this extra filter is available as 'TSS_quick.pl", which is a bit faster and almost equally accurate on bacterial RNAseq libraries. <br>
 <br>
 
