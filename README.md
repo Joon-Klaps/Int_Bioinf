@@ -94,7 +94,7 @@ A version that does not use this extra filter is available as 'TSS_quick.pl", wh
 
 ##### 2) Extract promotor regions
 ```bash
-perl fetch_prom.pl --tss tss.gtf --out promotors.gtf --bp 40
+perl prompos.pl --tss tss.gtf --out promotors.gtf --bp 40
 ```
 REQUIRED:<br>
 --tss: this is the input, which is the output from TSS.pl, a .gtf file with all the TSS sites<br>
@@ -104,12 +104,14 @@ OPTIONAL:<br>
 
 ##### 3) Lookup promotor regions in genome
 ```bash
-perl promseq.pl --prom promotors.gtf --out promotor_seqs.fasta --genome genome.fasta
+perl promseq.pl --prom promotors.gtf --out promotor_seqs.fasta --genome genome.fasta --id "t0"
 ```
 REQUIRED:<br>
 --prom: this is the input, which is the output from fetch_prom.pl, a gtf file with all the promotor regions<br>
 --out: this is the prefered output file containing the sequences of all promotor regions for each identified TSS in fasta format<br>
 --genome: this is the reference genome in fasta format<br>
+OPTIONAL:<br>
+--id: adds and ID (string) to the front of the fasta identifier
 
 ## TTS determination 
 
