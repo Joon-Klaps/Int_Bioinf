@@ -115,14 +115,14 @@ OPTIONAL:<br>
 perl promseq.pl --prom promotors.gtf --out promotor_seqs.fasta --genome genome.fasta --id "t0"
 ```
 REQUIRED:<br>
---prom: this is the input, which is the output from fetch_prom.pl, a gtf file with all the promotor regions<br>
+--prom: this is the input, which is the output from prompos.pl, a gtf file with all the promotor regions<br>
 --out: this is the prefered output file containing the sequences of all promotor regions for each identified TSS in fasta format<br>
 --genome: this is the reference genome in fasta format<br>
 OPTIONAL:<br>
 --id: adds and ID (string) to the front of the fasta identifier
 
 ### TTS
-#### Protocol
+#### Protocol (retired)
 
 First the BAM files are converted to BED files using the tool bamtobed from the Bedtools software.
 
@@ -137,3 +137,69 @@ Converting BAM to BED files
 ```
 bedtools bamtobed [OPTIONS] -i <reads.BAM> > reads.bed
 ```
+#### Protocol
+
+#### 1) Predicting TTS for Pseudomonas
+```bash
+perl TTS_pseudo.pl --in sorted.bam --out TTS.gtf --ratio 1.5 (#the following are TSS parameters:) --combine 20 --filter 5 --rpm 5
+```
+REQUIRED: <br>
+--in: this is the input, a sorted bam file <br>
+--out: his is the prefered output file containig the positions of all TTS, including coverage (absolute and in reads per million) <br>
+OPTIONAL: <br>
+--ratio: minimal ratio of coverage before and after TTS (over a window of 15bp)
+TSS PARAMETERS: # Because the scripts use TSS in the identification of TTS <br>
+--combine: the distance in bp where start positions are merged; default = 20 <br>
+--filter: the minimal absolute coverage for a start position to be included; default = 5 <br>
+--rpm: the minimal relative coverage for a start position to be included (in counts per million); default = 5 <br>
+NOTE:<br>
+1) The script works well only on bacterial libraries.
+2) Due to a bug, the script currently writes the same entry (TTS) multiple times to the output file. This can cause downstream problems. Hence, a simple solution is to sort the output file using the following bash command line script: <br>
+```bash
+sort -u -n -k4,4 TTS.gtf > TTS_unique.gtf  
+```
+<br>
+#### 2) Predicting TTS for LUZ7
+```bash
+perl TTS_LUZ.pl --in sorted.bam --out TTS.gtf --ratio 1.5 (#the following are TSS parameters:) --combine 20 --filter 5 --rpm 5
+```
+REQUIRED: <br>
+--in: this is the input, a sorted bam file <br>
+--out: his is the prefered output file containig the positions of all TTS, including coverage (absolute and in reads per million) <br>
+OPTIONAL: <br>
+--ratio: minimal ratio of coverage before and after TTS (over a window of 15bp)
+TSS PARAMETERS: # Because the scripts use TSS in the identification of TTS <br>
+--combine: the distance in bp where start positions are merged; default = 20 <br>
+--filter: the minimal absolute coverage for a start position to be included; default = 5 <br>
+--rpm: the minimal relative coverage for a start position to be included (in counts per million); default = 5 <br>
+NOTE:<br>
+The script works well only on dense, viral genomes. <br>
+#### 3) Getting terminator site positions
+To get the terminator regions, the same scripts to get the promotor regions can be used.
+```bash
+perl prompos.pl --tss tts.gtf --out terminators.gtf --bp 40
+```
+REQUIRED:<br>
+--tss: this is the input, which is the output from TTS.pl, a .gtf file with all the TTS sites<br>
+--out: this is the prefered output file containing the positions of all terminator regions of found TTS<br>
+OPTIONAL:<br>
+--bp: the region directly upstream of the TTS in bp; default = 40, but recommended to be changed<br>
+#### 4) Looking up terminator regions in genome
+```bash
+perl promseq.pl --prom terminators.gtf --out terminator_seqs.fasta --genome genome.fasta --id "t0"
+```
+REQUIRED:<br>
+--prom: this is the input, which is the output from prompos.pl, a gtf file with all the terminator regions<br>
+--out: this is the prefered output file containing the sequences of all terminator regions for each identified TTS in fasta format<br>
+--genome: this is the reference genome in fasta format<br>
+OPTIONAL:<br>
+--id: adds and ID (string) to the front of the fasta identifier
+
+
+
+
+
+
+
+
+
