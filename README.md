@@ -122,21 +122,6 @@ OPTIONAL:<br>
 --id: adds and ID (string) to the front of the fasta identifier
 
 ### TTS
-#### Protocol (retired)
-
-First the BAM files are converted to BED files using the tool bamtobed from the Bedtools software.
-
-```
-Installing Bedtools
-mv bedtools.static.binary bedtools
-chmod a+x bedtools
-```
-
-Converting BAM to BED files
-
-```
-bedtools bamtobed [OPTIONS] -i <reads.BAM> > reads.bed
-```
 #### Protocol
 
 #### 1) Predicting TTS for Pseudomonas
