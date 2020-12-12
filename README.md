@@ -1,38 +1,38 @@
 # Int_Bioinf
 
-Welcome to our github respository of the integrated bioinformatics project. In here, you will be able to find all our scripts and modules used. 
+Welcome to our github respository of the integrated bioinformatics project. In here, you will be able to find all our scripts and modules used.
 
-Here are some noteworthy github repositories of similar studies: 
+Here are some noteworthy github repositories of similar studies:
 - SMRT-cappable-seq:
-[analysis scripts of smrt](https://github.com/elitaone/SMRT-cappable-seq)
+[analysis scripts of Yan et al., 2018](https://github.com/elitaone/SMRT-cappable-seq)
 - Cappable-seq:
-[analysis scripts of Ettwiller et al](https://github.com/Ettwiller/TSS/)
+[analysis scripts of Ettwiller et al., 2016](https://github.com/Ettwiller/TSS/)
 
 
-## Data cleaning and assembly 
+## Data cleaning and assembly
 
-#### Trimming of reads
-##### Software and installation 
+### Trimming of reads
+##### Software and installation
 Porechop software was used; downloaded and installed from https://github.com/rrwick/Porechop via the command line:
-```bash 
+```bash
 git clone https://github.com/rrwick/Porechop.git
 cd Porechop
 python3 setup.py install
 porechop -h
 ```
-Next, we can edit the .bash_profile and add the alias line, so we can call upon it with porechop and not the whole path "alias porechop="~/Porechop/porechop-runner.py". 
-```bash 
+Next, we can edit the .bash_profile and add the alias line, so we can call upon it with porechop and not the whole path "alias porechop="~/Porechop/porechop-runner.py".
+```bash
 nano ./bash_profile
 alias porechop="~/Porechop/porechop-runner.py"
 ```
 ##### Protocol
 The basic version of the script was used, as follows:
-```bash 
+```bash
 porechop -i input_reads.fastq.gz -o output_reads.fastq.gz
 ```
 This script looks for adaptors at the 3’ and 5’ end, as well as known adaptors not completely at the end of the read (can be skipped via: --no_split but I didn’t do this).
 
-#### Genome assembly
+### Genome assembly
 ##### Software : NGLMR
 CoNvex Gap-cost alignMents for Long Reads (ngmlr) is a long-read mapper designed to sensitively align PacBilo or Oxford Nanopore to (large) reference genomes. Ngmlr uses an SV aware k-mer search to find approximate mapping locations for a read and then a banded Smith-Waterman alignment algorithm to compute the final alignment. Ngmlr uses a convex gap cost model that penalizes gap extensions for longer gaps less than for shorter ones to compute precise alignments. The gap model allows ngmlr to account for both the sequencing error and real genomic variations at the same time and makes it especially effective at more precisely identifying the position of breakpoints stemming from structural variations. The k-mer search helps to detect and split reads that cannot be aligned linearly, enabling ngmlr to reliably align reads to a wide range of different structural variations including nested SVs (e.g. inversions flanked by deletions).
 (https://www.nature.com/articles/s41592-018-0001-7)
@@ -58,9 +58,9 @@ where
 
 - reads.fasta is the fastq sequence file we would like to map to the reference genome
 
-- test.sam is the output sam file storing mapping information 
+- test.sam is the output sam file storing mapping information
 
-We transform the SAM files to BAM files, sort the sequences and create an index 
+We transform the SAM files to BAM files, sort the sequences and create an index
 ```
 samtools view -S -b ./SAM_files/trimmed_15_pseudo.sam > trimmed_15_pseudo.bam
 
@@ -68,7 +68,8 @@ samtools sort trimmed_15_pseudo.bam -o trimmed_15_pseudo.sorted.bam
 
 samtools index trimmed_15_pseudo.sorted.bam
 ```
-## TSS determination
+## TSS and TTS determination
+### TSS
 Determination of TSS was done using the perl scripts modified from Ettwiller et al. (https://github.com/Ettwiller).
 The input for this analysis are sorted mapped reads (.bam).
 1) The first script clusters starting sites of reads together within a specified distance, then filters for coverage (both absolute an relative).
@@ -120,23 +121,19 @@ REQUIRED:<br>
 OPTIONAL:<br>
 --id: adds and ID (string) to the front of the fasta identifier
 
-## TTS determination 
+### TTS
+#### Protocol
 
-First the BAM files are converted to BED files using the tool bamtobed from the Bedtools software. 
+First the BAM files are converted to BED files using the tool bamtobed from the Bedtools software.
 
 ```
-Installing Bedtools 
+Installing Bedtools
 mv bedtools.static.binary bedtools
 chmod a+x bedtools
 ```
 
-Converting BAM to BED files 
+Converting BAM to BED files
 
 ```
 bedtools bamtobed [OPTIONS] -i <reads.BAM> > reads.bed
 ```
-
-
-
-
-
