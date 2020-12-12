@@ -161,7 +161,7 @@ sort -u -n -k4,4 TTS.gtf > TTS_unique.gtf
 <br>
 #### 2) Predicting TTS for LUZ7
 ```bash
-perl TTS_LUZ.pl --in sorted.bam --out TTS.gtf --ratio 1.5 (#the following are TSS parameters:) --combine 20 --filter 5 --rpm 5
+perl TTS_LUZ.pl --in sorted.bam --out TTS.gtf --ratio 1.5 (the following are TSS parameters:) --combine 20 --filter 5 --rpm 5
 ```
 REQUIRED: <br>
 --in: this is the input, a sorted bam file <br>
